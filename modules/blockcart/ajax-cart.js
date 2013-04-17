@@ -90,34 +90,38 @@ var ajaxCart = {
 	},
 
 	// try to expand the cart
-	expand : function(){
-		if ($('#cart_block_list').hasClass('collapsed'))
-		{
-			$('#cart_block_summary').slideUp(200, function(){
-				$(this).addClass('collapsed').removeClass('expanded');
-				$('#cart_block_list').slideDown({
-					duration: 450,
-					complete: function(){$(this).addClass('expanded').removeClass('collapsed');}
-				});
-			});
-			// toogle the button expand/collapse button
-			$('#block_cart_expand').fadeOut('slow', function(){
-				$('#block_cart_collapse').fadeIn('fast');
-			});
+//	expand : function(){
+//		if ($('#cart_block_list').hasClass('collapsed'))
+//
+//		{
+//			$('#cart_block_summary').slideUp(200, function(){
+//				$(this).addClass('collapsed').removeClass('expanded');
+//				$('#cart_block_list').slideDown({
+//					duration: 450,
+//					complete: function(){$(this).addClass('expanded').removeClass('collapsed');}
+//
+//				});
+//			});
+//			// toogle the button expand/collapse button
+//			$('#block_cart_expand').fadeOut('slow', function(){
+//				$('#block_cart_collapse').fadeIn('fast');
+//			});
 
 			// save the expand statut in the user cookie
-			$.ajax({
-				type: 'POST',
-				headers: { "cache-control": "no-cache" },
-				url: baseDir + 'modules/blockcart/blockcart-set-collapse.php' + '?rand=' + new Date().getTime(),
-				async: true,
-				cache: false,
-				data: 'ajax_blockcart_display=expand'
-			});
+//			$.ajax({
+//				type: 'POST',
+//				headers: { "cache-control": "no-cache" },
+//				url: baseDir + 'modules/blockcart/blockcart-set-collapse.php' + '?rand=' + new Date().getTime(),
+//				async: true,
+//				cache: false,
+//				data: 'ajax_blockcart_display=expand'
+//			});
 
 
-		}
-	},
+//		}
+//	},
+
+
 	// Fix display when using back and previous browsers buttons
 	refresh : function(){
 		$.ajax({
@@ -136,31 +140,32 @@ var ajaxCart = {
 	},
 
 	// try to collapse the cart
-	collapse : function(){
+//	collapse : function(){
 
-		if ($('#cart_block_list').hasClass('expanded'))
-		{
-			$('#cart_block_list').slideUp('slow', function(){
-				$(this).addClass('collapsed').removeClass('expanded');
-				$('#cart_block_summary').slideDown(450, function(){
-					$(this).addClass('expanded').removeClass('collapsed');
-				});
-			});
-			$('#block_cart_collapse').fadeOut('slow', function(){
-				$('#block_cart_expand').fadeIn('fast');
-			});
+//		if ($('#cart_block_list').hasClass('expanded'))
+//		{
+//			$('#cart_block_list').slideUp('slow', function(){
+//				$(this).addClass('collapsed').removeClass('expanded');
+//				$('#cart_block_summary').slideDown(450, function(){
+//					$(this).addClass('expanded').removeClass('collapsed');
+//				});
+
+//			});
+//			$('#block_cart_collapse').fadeOut('slow', function(){
+//				$('#block_cart_expand').fadeIn('fast');
+//			});
 
 			// save the expand statut in the user cookie
-			$.ajax({
-				type: 'POST',
-				headers: { "cache-control": "no-cache" },
-				url: baseDir + 'modules/blockcart/blockcart-set-collapse.php' + '?rand=' + new Date().getTime(),
-				async: true,
-				cache: false,
-				data: 'ajax_blockcart_display=collapse' + '&rand=' + new Date().getTime()
-			});
-		}
-	},
+//			$.ajax({
+//				type: 'POST',
+//				headers: { "cache-control": "no-cache" },
+//				url: baseDir + 'modules/blockcart/blockcart-set-collapse.php' + '?rand=' + new Date().getTime(),
+//				async: true,
+//				cache: false,
+//				data: 'ajax_blockcart_display=collapse' + '&rand=' + new Date().getTime()
+//			});
+//		}
+//	},
 
 	// Update the cart information
 	updateCartInformation : function (jsonData, addedFromProductPage)
@@ -207,34 +212,60 @@ var ajaxCart = {
 				// add appliance to whishlist module
 				if (whishlist && !jsonData.errors)
 					WishlistAddProductCart(whishlist[0], idProduct, idCombination, whishlist[1]);
+					
+/* Creating the dark overlay */
+ 
+    var overlay = $('<div>').addClass('dark-overlay');
+ 
+overlay.appendTo($('body')).fadeIn();					
 
-				// add the picture to the cart
-				var $element = $(callerElement).parent().parent().find('a.product_image img,a.product_img_link img');
-				if (!$element.length)
-					$element = $('#bigpic');
-				var $picture = $element.clone();
-				var pictureOffsetOriginal = $element.offset();
+/*					
+* $('.dark-overlay').click(function(){
+*    $(this).fadeOut(function(){
+*        $(this).remove()
+*    });
+* })					
+*/
 
-				if ($picture.size())
-					$picture.css({'position': 'absolute', 'top': pictureOffsetOriginal.top, 'left': pictureOffsetOriginal.left});
+/* Creating the floating box */
+ 
+    var floating_box = $('<div>').addClass('add-to-cart-popup')
 
-				var pictureOffset = $picture.offset();
-				if ($('#cart_block')[0] && $('#cart_block').offset().top && $('#cart_block').offset().left)
-					var cartBlockOffset = $('#cart_block').offset();
-				else
-					var cartBlockOffset = $('#shopping_cart').offset();
 
-				// Check if the block cart is activated for the animation
-				if (cartBlockOffset != undefined && $picture.size())
-				{
-					$picture.appendTo('body');
-					$picture.css({ 'position': 'absolute', 'top': $picture.css('top'), 'left': $picture.css('left'), 'z-index': 4242 })
-					.animate({ 'width': $element.attr('width')*0.66, 'height': $element.attr('height')*0.66, 'opacity': 0.2, 'top': cartBlockOffset.top + 30, 'left': cartBlockOffset.left + 15 }, 1000)
-					.fadeOut(100, function() {
-						ajaxCart.updateCartInformation(jsonData, addedFromProductPage);
-					});
-				}
-				else
+
+/* getting the checkout link */
+ 
+var checkout_link = $('#button_order_cart').attr('href');
+ 
+/* Populating the box */
+ 
+floating_box.append('<p>'+ added_txt+'</p>');
+floating_box.append('<a href="'+checkout_link+'" rel="nofollow" class="exclusive">'+ checkout_txt+'</a>');
+floating_box.append('<a href="" rel="nofollow" class="close-popup button">'+ continue_txt+'</a>');
+ 
+/*
+* $('.close-popup').click(function(){
+*    $(this).parent().fadeOut(function(){
+*        $(this).remove()
+*    });
+*    $('.dark-overlay').fadeOut(function(){
+*        $(this).remove()
+*    });
+* })   
+*/
+					
+floating_box.appendTo($('body')).fadeIn();
+/* 
+* $('.dark-overlay').click(function(){
+*    $(this).fadeOut(function(){
+*        $(this).remove()
+*  });
+*    $('.add-to-cart-popup').fadeOut(function(){
+*        $(this).remove()
+*    });                 
+* }) 
+*/
+
 					ajaxCart.updateCartInformation(jsonData, addedFromProductPage);
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown)
@@ -674,33 +705,33 @@ $(document).ready(function(){
 	var cart_block = new HoverWatcher('#cart_block');
 	var shopping_cart = new HoverWatcher('#shopping_cart');
 
-	$("#shopping_cart a:first").hover(
-		function() {
-			$(this).css('border-radius', '3px 3px 0px 0px');
-			if (ajaxCart.nb_total_products > 0)
-				$("#cart_block").stop(true, true).slideDown(450);
-		},
-		function() {
-			$('#header #shopping_cart a').css('border-radius', '3px');
-			setTimeout(function() {
-				if (!shopping_cart.isHoveringOver() && !cart_block.isHoveringOver())
-					$("#header #cart_block").stop(true, true).slideUp(450);
-			}, 200);
-		}
-	);
+//	$("#shopping_cart a:first").hover(
+//		function() {
+//			$(this).css('border-radius', '3px 3px 0px 0px');
+//			if (ajaxCart.nb_total_products > 0)
+//				$("#cart_block").stop(true, true).slideDown(450);
+//		},
+//		function() {
+//			$('#header #shopping_cart a').css('border-radius', '3px');
+//			setTimeout(function() {
+//				if (!shopping_cart.isHoveringOver() && !cart_block.isHoveringOver())
+//					$("#header #cart_block").stop(true, true).slideUp(450);
+//			}, 200);
+//		}
+//	);
 
-	$("#cart_block").hover(
-		function() {
-			$('#shopping_cart a').css('border-radius', '3px 3px 0px 0px');
-		},
-		function() {
-			$('#shopping_cart a').css('border-radius', '3px');
-			setTimeout(function() {
-				if (!shopping_cart.isHoveringOver())
-					$("#header #cart_block").stop(true, true).slideUp(450);
-			}, 200);
-		}
-	);
+//	$("#cart_block").hover(
+//		function() {
+//			$('#shopping_cart a').css('border-radius', '3px 3px 0px 0px');
+//		},
+//		function() {
+//			$('#shopping_cart a').css('border-radius', '3px');
+//			setTimeout(function() {
+//				if (!shopping_cart.isHoveringOver())
+//					$("#header #cart_block").stop(true, true).slideUp(450);
+//			}, 200);
+//		}
+//	);
 	
 	$('.delete_voucher').live('click', function() {
 		$.ajax({

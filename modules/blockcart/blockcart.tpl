@@ -38,18 +38,14 @@ var removingLinkText = '{l s='Please remove this product from my cart.' mod='blo
 var freeShippingTranslation = '{l s='Free shipping!' mod='blockcart' js=1}';
 var freeProductTranslation = '{l s='Free!' mod='blockcart' js=1}';
 var delete_txt = '{l s='Delete' mod='blockcart' js=1}';
+var added_txt = '{l s='Product added to the cart' mod='blockcart' js=1}';
+var checkout_txt = '{l s='Proceed to checkout' mod='blockcart' js=1}';
+var continue_txt = '{l s='Continue shopping' mod='blockcart' js=1}';
 </script>
 
 
 <!-- MODULE Block cart -->
 <div id="cart_block" class="block exclusive">
-	<h4 class="title_block">
-		<a href="{$link->getPageLink("$order_process", true)}" title="{l s='View my shopping cart' mod='blockcart'}" rel="nofollow">{l s='Cart' mod='blockcart'}</a>
-		{if $ajax_allowed}
-		<span id="block_cart_expand" {if isset($colapseExpandStatus) && $colapseExpandStatus eq 'expanded' || !isset($colapseExpandStatus)}class="hidden"{/if}>&nbsp;</span>
-		<span id="block_cart_collapse" {if isset($colapseExpandStatus) && $colapseExpandStatus eq 'collapsed'}class="hidden"{/if}>&nbsp;</span>
-		{/if}
-	</h4>
 	<div class="block_content">
 	<!-- block summary -->
 	<div id="cart_block_summary" class="{if isset($colapseExpandStatus) && $colapseExpandStatus eq 'expanded' || !$ajax_allowed || !isset($colapseExpandStatus)}collapsed{else}expanded{/if}">
