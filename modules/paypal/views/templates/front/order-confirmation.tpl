@@ -26,7 +26,6 @@
 <div id="center_column" class=" grid_5">
 	
 	<div id="primary_block">
-
 {if $smarty.const._PS_VERSION_ < 1.5 && isset($use_mobile) && $use_mobile}
 	{include file="$tpl_dir./modules/paypal/views/templates/front/order-confirmation.tpl"}
 {else}
@@ -48,21 +47,21 @@
 	{if $order}
 	<p align="justify">Your payment has been received and your order will be posted shortly. You will receive the dispatch notification with delivery details as soon as your item is dispatched. For any questions or for further information, please contact our <a href="/contact-us">customer support</a>.</p>
 	<p>{l s='Total of the transaction (taxes incl.) :' mod='paypal'} <span class="bold">{$price}</span></p>
-{*	
+{*
 *	<p>{l s='Your order ID is :' mod='paypal'} <span class="bold">{$order.id_order}</span></p>
-*}	
+*}
 	<p>{l s='Your PayPal transaction ID is :' mod='paypal'} <span class="bold">{$order.id_transaction}</span></p>
     <p>To review your order status and download an invoice, please visit: <a href="/tracking">tekcity.com/tracking</a>.
     <p>Thank you!
-</p>	
+</p>
 	{/if}
 {*
 *	{if $is_guest}
-*		<a href="{$link->getPageLink('guest-tracking.php', true)}?id_order={$order.id_order}" title="{l s='Follow my order' mod='paypal'}" data-ajax="false"><img src="{$img_dir}icon/order.gif" alt="{l s='Follow my order'}" class="icon" /></a>
-*		<a href="{$link->getPageLink('guest-tracking.php', true)}?id_order={$order.id_order}" title="{l s='Follow my order' mod='paypal'}" data-ajax="false">{l s='Follow my order' mod='paypal'}</a>
+*		<a href="{$link->getPageLink('guest-tracking.php', true)}?id_order={$order_reference}" title="{l s='Follow my order' mod='paypal'}" data-ajax="false"><img src="{$img_dir}icon/order.gif" alt="{l s='Follow my order'}" class="icon" /></a>
+*		<a href="{$link->getPageLink('guest-tracking.php', true)}?id_order={$order_reference}" title="{l s='Follow my order' mod='paypal'}" data-ajax="false">{l s='Follow my order' mod='paypal'}</a>
 *	{else}
-*		<a href="{$link->getPageLink('history.php', true)}" title="{l s='Order history' mod='paypal'}" data-ajax="false">{l s='Order History'}</a>
-*		<a href="{$link->getPageLink('history.php', true)}" title="{l s='Order history' mod='paypal'}" data-ajax="false">{l s='Order History' mod='paypal'}</a>
+*		<a href="{$link->getPageLink('history.php', true)}" title="{l s='Back to orders' mod='paypal'}" data-ajax="false"><img src="{$img_dir}icon/order.gif" alt="{l s='Back to orders'}" class="icon" /></a>
+*		<a href="{$link->getPageLink('history.php', true)}" title="{l s='Back to orders' mod='paypal'}" data-ajax="false">{l s='Back to orders' mod='paypal'}</a>
 *	{/if}
 *}
 	</div>
